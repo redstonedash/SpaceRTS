@@ -126,6 +126,10 @@ Cog =
 	{
 		float HP = 3,
 	},
+	AutoOrientToVelocity = 
+	{
+		float AngleOffset = 90,
+	},
 	Hierarchy = 
 	{
 		Cog = 
