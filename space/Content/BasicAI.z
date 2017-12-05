@@ -1,0 +1,56 @@
+class BasicAI : ZilchComponent
+{
+    function Connect()
+    {
+        Zero.Connect(this.Space, Events.LogicUpdate, this.OnLogicUpdate);
+    }
+    function OnLogicUpdate(event : UpdateEvent)
+    {
+        foreach(var unit in this.Owner.Commander.Units)
+        {
+            if(unit!=null)
+            {
+                var predictedLocation = this.Owner.Transform.Translation+(this.Owner.RigidBody.Velocity/60);
+                var recalculatedPrediction = predictedLocation+(unit.Slave.Offset.X*this.Owner.Orientation.WorldRight)+(unit.Slave.Offset.Y*this.Owner.Orientation.WorldForward);
+                var offsets = Array[Real]();
+                var unitPredictedLocation = unit.Transform.Translation + (unit.RigidBody.Velocity/60);
+                offsets.Add(Math.Distance(recalculatedPrediction,unitPredictedLocation));
+                offsets.Add(Math.Distance(recalculatedPrediction,unitPredictedLocation+(unit.Orientation.WorldForward/60)));
+                offsets.Add(Math.Distance(recalculatedPrediction,unitPredictedLocation-(unit.Orientation.WorldForward/60)));
+                offsets.Add(Math.Distance(recalculatedPrediction,unitPredictedLocation-(unit.Orientation.WorldRight/60)));
+                offsets.Add(Math.Distance(recalculatedPrediction,unitPredictedLocation+(unit.Orientation.WorldRight/60)));
+                offsets.Add(Math.Distance(recalculatedPrediction,unitPredictedLocation+(Real3(this.Owner.Commander.Xbone.LeftStick,0)/60)));
+                offsets.Add(Math.Distance(recalculatedPrediction,unitPredictedLocation+Math.Normalize(this.Owner.RigidBody.Velocity)/60));
+                var min = offsets[0];
+                var index = 0;
+                for(var i = 1; i<7; ++i)
+                {
+                    if(min>offsets[i])
+                    {
+                        min=offsets[i];
+                        index=i;
+                    }
+                }
+                if(index==1)
+                {
+                    unit.RigidBody.Velocity+=unit.Orientation.WorldForward;
+                } else if (index==2)
+                {
+                    unit.RigidBody.Velocity-=unit.Orientation.WorldForward;
+                } else if (index==3)
+                {
+                    unit.RigidBody.Velocity-=unit.Orientation.WorldRight;
+                } else if (index==4)
+                {
+                    unit.RigidBody.Velocity+=unit.Orientation.WorldRight;
+                } else if (index==5)
+                {
+                    unit.RigidBody.Velocity+=Real3(this.Owner.Commander.Xbone.LeftStick,0);
+                } else 
+                {
+                    unit.RigidBody.Velocity+=Math.Normalize(this.Owner.RigidBody.Velocity);
+                }
+            }
+        }
+    }
+}
