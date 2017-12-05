@@ -1,0 +1,5 @@
+class HP : ZilchComponent
+{
+    [Property]
+    var HP : Real = 0;
+}

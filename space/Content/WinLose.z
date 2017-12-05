@@ -1,0 +1,31 @@
+class WinLose : ZilchComponent
+{
+    [Property]
+    var One : CogPath = null;
+    [Property]
+    var Two : CogPath = null;
+    [Property]
+    var WinLevel : Level = null;
+    [Property]
+    var LoseLevel : Level = null;
+    function Initialize(init : CogInitializer)
+    {
+        Zero.Connect(this.Space, Events.LogicUpdate, this.OnLogicUpdate);
+    }
+
+    function OnLogicUpdate(event : UpdateEvent)
+    {
+        if(this.One.Cog.Hill.ScoreBoi == this.Two.Cog.Hill.ScoreBoi)
+        {
+            //Console.WriteLine("equal `this.One.Cog.Hill.ScoreBoi`");
+            if(this.One.Cog.Hill.ScoreBoi == 0)
+            {
+                this.Space.LoadLevel(this.LoseLevel);
+            }
+            else if(this.One.Cog.Hill.ScoreBoi == 1)
+            {
+                this.Space.LoadLevel(this.WinLevel);
+            }
+        }
+    }
+}

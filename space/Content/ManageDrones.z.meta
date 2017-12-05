@@ -1,0 +1,8 @@
+TextContent = 
+{
+	ZilchScriptBuilder = 
+	{
+		string Name = "ManageDrones",
+		uint64 ResourceId = 5a9c53e42a37718e,
+	},
+},

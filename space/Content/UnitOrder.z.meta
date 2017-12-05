@@ -1,0 +1,8 @@
+TextContent = 
+{
+	ZilchScriptBuilder = 
+	{
+		string Name = "UnitOrder",
+		uint64 ResourceId = 5aa04246d81fd0b0,
+	},
+},

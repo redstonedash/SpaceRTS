@@ -1,0 +1,69 @@
+class Slave : ZilchComponent
+{
+    var HP:Real = 1.0;
+    [Property]
+    var TeamColor:Integer=0;
+    var CogBoi:Cog=null;
+    var RealBoi:Real=0;
+    var Offset:Real3=Real3();
+    var NullBoi:Cog=null;
+    function Initialize(init : CogInitializer)
+    {
+        Zero.Connect(this.Space, Events.LogicUpdate, this.OnLogicUpdate);
+        Zero.Connect(this.LevelSettings, Events.YoSomeoneDied, this.OnEmpty);
+        if(this.LevelSettings.ManageDrones.EmptySpaces.Count != 0)
+        {
+            Console.WriteLine("yo");
+            foreach(var i in this.LevelSettings.ManageDrones.Commanders)
+            {
+                if(i.Name.Contains(this.Owner.Name))
+                {
+                    this.CogBoi = i;
+                    break;
+                }
+            }
+            if(this.CogBoi != this.NullBoi)
+            {
+                if(this.CogBoi.Commander.Units.FindFirstIndex(this.NullBoi) != -1)
+                {
+                    this.CogBoi.Commander.Units.Set(this.CogBoi.Commander.Units.FindFirstIndex(this.NullBoi), this.Owner);
+                    var offsets = Array[Real3]();
+                    offsets.Add(Real3(-0.25,0.25,0));
+                    offsets.Add(Real3(0.25,-0.25,0));
+                    offsets.Add(Real3(-0.25,-0.25,0));
+                    offsets.Add(Real3(0.25,0.25,0));
+                    this.Offset = offsets.Get(this.CogBoi.Commander.Units.FindFirstIndex(this.Owner));
+                    this.LevelSettings.ManageDrones.EmptySpaces.RemoveAt(0);
+                    this.LevelSettings.ManageDrones.Commanders.RemoveAt(0);
+                }
+                else
+                {
+                    this.CogBoi = this.NullBoi;
+                }
+            }
+            
+        }
+    }
+    function OnLogicUpdate(event : UpdateEvent)
+    {
+        if(this.HP<0)
+        {
+            this.LevelSettings.ManageDrones.SendDeathEvent(this.Owner, this.CogBoi);
+        }
+    }
+    function OnEmpty(event : DeathEvent)
+    {
+        if(this.CogBoi == null && event.CommandBoi.Commander.Units.Get(event.IndexBoi) == null)
+        {
+            Console.WriteLine(event.CommandBoi.Commander.Units);
+            Console.WriteLine(event.CommandBoi.Commander.Units.FindFirstIndex(null));
+            if(event.CommandBoi.Name.Contains(this.Owner.Name))
+            {
+                Console.WriteLine("AHHHHHHH");
+                event.CommandBoi.Commander.Units.Set(event.IndexBoi, this.Owner);
+                this.CogBoi = event.CommandBoi;
+                this.CogBoi.Commander.NewBoi(event.IndexBoi);
+            }
+        }
+    }
+}

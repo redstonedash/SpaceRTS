@@ -1,0 +1,64 @@
+class UnitOrder : ZilchComponent
+{
+    [Property]
+    var GoodCom : Archetype = null;
+    [Property]
+    var BadCom : Archetype = null;
+    var Good : Array[Cog] = Array[Cog]();
+    var Bad : Array[Cog] = Array[Cog]();
+    var PlayerOne : Gamepad = Zero.Gamepads.GetGamePad(0);
+    var PlayerTwo : Gamepad = Zero.Gamepads.GetGamePad(1);
+    var GoodIndex : Integer = 0;
+    var BadIndex : Integer = 0;
+    function Initialize(init : CogInitializer)
+    {
+        Zero.Connect(this.Space, Events.LogicUpdate, this.OnLogicUpdate);
+        this.Good.Add(this.Space.CreateAtPosition(this.GoodCom,Real3()));
+        this.Bad.Add(this.Space.CreateAtPosition(this.BadCom,Real3()));
+        this.Good[0].Commander.PlayerControlled=true;
+        this.Bad[0].Commander.PlayerControlled=true;
+        this.Good[0].RemoveComponentByName("HP");
+        this.Bad[0].RemoveComponentByName("HP");
+    }
+
+    function OnLogicUpdate(event : UpdateEvent)
+    {
+        Console.WriteLine("existance");
+        this.Good.RemoveAll(null);
+        this.Bad.RemoveAll(null);
+        if(this.PlayerOne.IsButtonPressed(Buttons.RightShoulder))
+        {
+            this.Good[this.GoodIndex].Commander.PlayerControlled=false;
+            if(this.GoodIndex>=this.Good.LastIndex)
+            {
+                this.GoodIndex=0;
+            } else ++this.GoodIndex;
+            this.Good[this.GoodIndex].Commander.PlayerControlled=true;
+        } else if(this.PlayerOne.IsButtonPressed(Buttons.LeftShoulder))
+        {
+            this.Good[this.GoodIndex].Commander.PlayerControlled=false;
+            if(this.GoodIndex<=0)
+            {
+                this.GoodIndex=this.Good.LastIndex;
+            } else --this.GoodIndex;
+            this.Good[this.GoodIndex].Commander.PlayerControlled=true;
+        }
+                if(this.PlayerTwo.IsButtonPressed(Buttons.RightShoulder))
+        {
+            this.Bad[this.BadIndex].Commander.PlayerControlled=false;
+            if(this.BadIndex>=this.Bad.LastIndex)
+            {
+                this.BadIndex=0;
+            } else ++this.BadIndex;
+            this.Bad[this.BadIndex].Commander.PlayerControlled=true;
+        } else if(this.PlayerTwo.IsButtonPressed(Buttons.LeftShoulder))
+        {
+            this.Bad[this.BadIndex].Commander.PlayerControlled=false;
+            if(this.BadIndex<=0)
+            {
+                this.BadIndex=this.Bad.LastIndex;
+            } else --this.BadIndex;
+            this.Bad[this.BadIndex].Commander.PlayerControlled=true;
+        }
+    }
+}

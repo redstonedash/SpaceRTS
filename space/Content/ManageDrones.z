@@ -1,0 +1,38 @@
+class DeathEvent : ZilchEvent
+{
+    sends YoSomeoneDied : DeathEvent;
+    var IsGoodBoi : Boolean;
+    var CommandBoi : Cog;
+    var IndexBoi : Integer;
+}
+
+class ManageDrones : ZilchComponent
+{
+    var NullBoi : Cog = null;
+    var EmptySpaces : Array[Cog] = Array[Cog]();
+    var Commanders : Array[Cog] = Array[Cog]();
+
+    function OnLogicUpdate(event : UpdateEvent)
+    {
+    }
+
+    function SendDeathEvent(emptyBoi : Cog, commander : Cog)
+    {
+        if(emptyBoi.Slave.CogBoi != this.NullBoi)
+        {
+            var deathInstance = DeathEvent();
+            deathInstance.IndexBoi = commander.Commander.Units.FindFirstIndex(emptyBoi);
+            this.EmptySpaces.Add(emptyBoi);
+            this.Commanders.Add(commander);
+            deathInstance.IsGoodBoi = emptyBoi.Name.Contains("GoodBoi");
+            deathInstance.CommandBoi = commander;
+            emptyBoi.Destroy();
+            commander.Commander.Units.Set(commander.Commander.Units.FindFirstIndex(emptyBoi), this.NullBoi);
+            this.Owner.DispatchEvent(Events.YoSomeoneDied, deathInstance);
+        }
+        else
+        {
+            emptyBoi.Destroy();
+        }
+    }
+}

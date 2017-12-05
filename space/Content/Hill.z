@@ -1,0 +1,95 @@
+class Hill : ZilchComponent
+{
+    var ScoreBoi:Real=0.5;
+    var TempBoi:Real=0.5;
+    var Counter:Real=0;
+    function Initialize(init : CogInitializer)
+    {
+        Zero.Connect(this.Space, Events.LogicUpdate, this.OnLogicUpdate);
+        Zero.Connect(this.Owner, Events.CollisionPersisted, this.CollosionPersisted);
+    }
+
+    function NthRt(baseBoi : Real, rootBoi : Real) : Real
+    {
+        var lowGuess = Real(0);
+        var highGuess = Real(rootBoi*baseBoi+1);
+        var guess = Real(1);
+        while(Math.Abs(guess^rootBoi - baseBoi) > 0.00000001)
+        {
+            guess = (lowGuess+highGuess)/2;
+            
+            if(guess^rootBoi < baseBoi)
+            {
+                lowGuess = guess;
+            }
+            if(guess^rootBoi > baseBoi)
+            {
+                highGuess = guess;
+            }
+            if(Math.Abs(guess^rootBoi - baseBoi) < 0.00000001)
+            {
+                break;
+            }
+        }
+        if(Math.Abs(guess^rootBoi - baseBoi) < 0.00000001)
+        {
+            return guess;
+        }
+        else
+        {
+            return 0;
+        }
+    }
+
+    function EaseInOutQuart(inputBoi : Real) : Real
+    {
+        if(inputBoi < 0.5)
+        {
+            return this.NthRt((inputBoi/8), 4);
+            //return this.NthRt((inputBoi/2), 2);
+        }
+        else
+        {
+            return (-this.NthRt((-inputBoi+ 1)/8, 4)+1);
+            //return (-this.NthRt((-inputBoi+1)/2, 2)+1);
+        }
+    }
+
+    function OnLogicUpdate(event : UpdateEvent)
+    {
+        this.ScoreBoi=Math.Saturate(this.TempBoi);
+        //Console.WriteLine("Score `this.ScoreBoi`");
+        this.TempBoi=this.ScoreBoi;
+        var sign = 1;
+        if(this.Owner.Transform.Translation.X<0)
+            sign=-1;
+        if(this.Counter>0)
+        {
+            this.Counter=-10;
+            if(this.ScoreBoi==1)
+            {
+                this.Space.FindObjectByName("Camera").UnitOrder.Good.Add(this.Space.CreateAtPosition(Archetype.Find("GoodBoiCommander"), Real3(10*sign,0,0)));
+            }
+            if(this.ScoreBoi==0)
+            {
+                this.Space.FindObjectByName("Camera").UnitOrder.Bad.Add(this.Space.CreateAtPosition(Archetype.Find("BadBoiCommander"), Real3(10*sign,0,0)));
+            }
+        } else {
+            this.Counter+=event.Dt;
+        }
+    }
+    function CollosionPersisted(event : CollisionEvent)
+    {
+        if(event.OtherObject.Name.Contains("Good"))
+        {
+            this.TempBoi+=0.00005;
+        } 
+        else 
+        {
+            this.TempBoi-=0.00005;
+        }
+        
+        this.TempBoi = Math.Saturate(this.TempBoi);
+        this.Owner.Sprite.Color = Real4(Math.Saturate(1 - this.EaseInOutQuart(this.TempBoi)), 0, Math.Saturate(this.EaseInOutQuart(this.TempBoi)), 0.25);
+    }
+}
