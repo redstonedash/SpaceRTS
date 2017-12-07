@@ -14,13 +14,16 @@ class FireFlyAI : ZilchComponent
         
         //THIS CONTROLS THE COMMANDER
         this.NearDirection=Real3(this.Owner.Commander.Xbone.LeftStick.XY,0);
-        if(Math.Sqrt(this.NearDirection.X^2 + this.NearDirection.Y^2) > 0.1)
+        if(this.Owner.Commander.PlayerControlled)
         {
-            this.Owner.RigidBody.Velocity=this.NearDirection*10;
-        }
-        else
-        {
-            this.Owner.RigidBody.Velocity /= 1.25;
+            if(Math.Sqrt(this.NearDirection.X^2 + this.NearDirection.Y^2) > 0.1)
+            {
+                this.Owner.RigidBody.Velocity=this.NearDirection*10;
+            }
+            else
+            {
+                this.Owner.RigidBody.Velocity /= 1.25;
+            }
         }
         
         foreach(var unit in this.Owner.Commander.Units)

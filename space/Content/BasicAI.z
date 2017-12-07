@@ -1,11 +1,17 @@
 class BasicAI : ZilchComponent
 {
+    var NearDirection : Real3 = Real3();
     function Connect()
     {
         Zero.Connect(this.Space, Events.LogicUpdate, this.OnLogicUpdate);
     }
     function OnLogicUpdate(event : UpdateEvent)
     {
+        //THIS CONTROLS THE COMMANDER
+        this.NearDirection=Real3(this.Owner.Commander.Xbone.LeftStick.XY,0);
+        
+        this.NearDirection=Real3(this.Owner.Commander.Xbone.LeftStick.XY*0.2,0);
+        if(this.Owner.Commander.PlayerControlled)this.Owner.RigidBody.Velocity+=this.NearDirection;
         foreach(var unit in this.Owner.Commander.Units)
         {
             if(unit!=null)

@@ -1,5 +1,6 @@
 class Slave : ZilchComponent
 {
+    [Property]
     var HP:Real = 1.0;
     [Property]
     var TeamColor:Integer=0;
@@ -46,7 +47,7 @@ class Slave : ZilchComponent
     }
     function OnLogicUpdate(event : UpdateEvent)
     {
-        if(this.HP<0)
+        if(this.Owner.HP.HP<0)
         {
             this.LevelSettings.ManageDrones.SendDeathEvent(this.Owner, this.CogBoi);
         }

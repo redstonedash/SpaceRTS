@@ -1,6 +1,6 @@
 class Commander : ZilchComponent
 {
-    var NearDirection : Real3 = Real3();
+    //var NearDirection : Real3 = Real3();
     var FarDirection : Real3 = Real3();
     var Xbone:Gamepad;
     [Property]
@@ -61,8 +61,6 @@ class Commander : ZilchComponent
         } else this.Owner.SpriteParticleSystem.Visible=true;
         var time = event.RealTimePassed;
         //Console.WriteLine(event.RealTimePassed-time);
-        this.NearDirection=Real3(this.Xbone.LeftStick.X*0.2,this.Xbone.LeftStick.Y*0.2,0);
-        if(this.PlayerControlled)this.Owner.RigidBody.Velocity+=this.NearDirection;
         //this.Owner.Transform.SetEulerAnglesXYZ(0,0,Math.Angle2D(this.Owner.RigidBody.Velocity));
     }
     function NewBoi(yoIDontWantToNameThis : Integer)

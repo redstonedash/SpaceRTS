@@ -8,12 +8,12 @@ class Aura : ZilchComponent
 
     function OnLogicUpdate(event : UpdateEvent)
     {
-        var aura = this.Space.PhysicsSpace.CastSphereResults(this.Owner.Transform.Translation, 4, 100, CastFilter());
+        var aura = this.Space.PhysicsSpace.CastSphereResults(this.Owner.Transform.Translation, 2, 100, CastFilter());
         foreach(var hit in aura.All)
         {
-            if(hit.ObjectHit.Slave != null)
+            if(hit.ObjectHit.HP != null && hit.ObjectHit.Name != this.Owner.Name)
             {
-                hit.ObjectHit.Slave.HP -= 0.0005;
+                hit.ObjectHit.HP.HP -= 0.001;
             }
         }
     }
