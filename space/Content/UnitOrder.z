@@ -23,7 +23,7 @@ class UnitOrder : ZilchComponent
 
     function OnLogicUpdate(event : UpdateEvent)
     {
-        Console.WriteLine("existance");
+        //Console.WriteLine("existance");
         this.Good.RemoveAll(null);
         this.Bad.RemoveAll(null);
         if(this.PlayerOne.IsButtonPressed(Buttons.RightShoulder))
