@@ -1,0 +1,8 @@
+TextContent = 
+{
+	ZilchScriptBuilder = 
+	{
+		string Name = "FireFlyAI",
+		uint64 ResourceId = 5a957d29b65587ad,
+	},
+},

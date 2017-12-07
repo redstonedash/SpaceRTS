@@ -1,0 +1,56 @@
+class FireFlyAI : ZilchComponent
+{
+    var NearDirection : Real3 = Real3();
+    
+    function Connect()
+    {
+        Zero.Connect(this.Space, Events.LogicUpdate, this.OnLogicUpdate);
+    }
+
+    function OnLogicUpdate(event : UpdateEvent)
+    {
+        var predictedLocation = this.Owner.Transform.Translation+(this.Owner.RigidBody.Velocity/60);
+        var time = event.RealTimePassed;
+        
+        //THIS CONTROLS THE COMMANDER
+        this.NearDirection=Real3(this.Owner.Commander.Xbone.LeftStick.XY,0);
+        if(Math.Sqrt(this.NearDirection.X^2 + this.NearDirection.Y^2) > 0.1)
+        {
+            this.Owner.RigidBody.Velocity=this.NearDirection*10;
+        }
+        else
+        {
+            this.Owner.RigidBody.Velocity /= 1.25;
+        }
+        
+        foreach(var unit in this.Owner.Commander.Units)
+        {
+            if(unit!=null)
+            {
+                var recalculatedPrediction = predictedLocation+(unit.Slave.Offset.X*this.Owner.Orientation.WorldRight)+(unit.Slave.Offset.Y*this.Owner.Orientation.WorldForward);
+                var correctOffset = unit.Slave.Offset + this.Owner.Transform.Translation;
+                var destinationNormal = Math.Normalize(correctOffset- unit.Transform.Translation);
+                if(Math.Sqrt(this.Owner.Commander.Xbone.LeftStick.X^2 + this.Owner.Commander.Xbone.LeftStick.Y^2) > 0.01)
+                {
+                    destinationNormal *= Math.Sqrt(this.Owner.Commander.Xbone.LeftStick.X^2 + this.Owner.Commander.Xbone.LeftStick.Y^2);
+                }
+                if(Math.Distance(correctOffset, unit.Transform.Translation) >  0.1)
+                {
+                    unit.RigidBody.Velocity = destinationNormal*10;
+                }
+                else if(Math.Distance(correctOffset, unit.Transform.Translation) >  0.01)
+                {
+                    unit.RigidBody.Velocity = destinationNormal;
+                }
+                else if(Math.Distance(correctOffset, unit.Transform.Translation) >  0.001)
+                {
+                    unit.RigidBody.Velocity = destinationNormal/10;
+                }
+                else
+                {
+                    unit.RigidBody.Velocity = Real3(0, 0, 0);
+                }
+            }
+        }
+    }
+}
