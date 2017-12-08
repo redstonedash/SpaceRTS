@@ -36,17 +36,23 @@ class Commander : ZilchComponent
             this.Owner.AddComponentByName("FireFlyAI");
             foreach(var i in this.Units)
             {
-                i.RigidBody.RotationLocked = true;
-                var position = this.Units.FindFirstIndex(i);
-                var offsets = Array[Real3]();
-                offsets.Add(Real3(-0.25,0.25,0));
-                offsets.Add(Real3(0.25,-0.25,0));
-                offsets.Add(Real3(-0.25,-0.25,0));
-                offsets.Add(Real3(0.25,0.25,0));
-                i.Slave.Offset = offsets.Get(position);
-                i.Transform.EulerAngles = Real3(0, 0, 0);
-                i.AddComponentByName("Aura");
-                Zero.Connect(i.Space, Events.LogicUpdate, i.Aura.OnLogicUpdate);
+                if(i!=null){
+                    if(i.SphericalParticleEmitter !=null)
+                    {
+                        i.SphericalParticleEmitter.Active=true;
+                    }
+                    i.RigidBody.RotationLocked = true;
+                    var position = this.Units.FindFirstIndex(i);
+                    var offsets = Array[Real3]();
+                    offsets.Add(Real3(-0.25,0.25,0));
+                    offsets.Add(Real3(0.25,-0.25,0));
+                    offsets.Add(Real3(-0.25,-0.25,0));
+                    offsets.Add(Real3(0.25,0.25,0));
+                    i.Slave.Offset = offsets.Get(position);
+                    i.Transform.EulerAngles = Real3(0, 0, 0);
+                    i.AddComponentByName("Aura");
+                    Zero.Connect(i.Space, Events.LogicUpdate, i.Aura.OnLogicUpdate);
+                }
             }
             this.Owner.RigidBody.RotationLocked = true;
             this.Owner.RemoveComponentByName("BasicAI");
