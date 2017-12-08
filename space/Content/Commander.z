@@ -31,8 +31,31 @@ class Commander : ZilchComponent
 
     function OnLogicUpdate(event : UpdateEvent)
     {
+        //Switch to Basic
+        if(Zero.Keyboard.KeyIsPressed(Keys.B) && this.Owner.BasicAI == null)
+        {
+            this.DeleteCurType();
+            this.Owner.AddComponentByName("BasicAI");
+            foreach(var i in this.Units)
+            {
+                if(i!=null){
+                    var position = this.Units.FindFirstIndex(i);
+                    var offsets = Array[Real3]();
+                    offsets.Add(Real3(0.5,-0.5,0));
+                    offsets.Add(Real3(0.25,-0.25,0));
+                    offsets.Add(Real3(-0.25,-0.25,0));
+                    offsets.Add(Real3(-0.5,-0.5,0));
+                    i.Slave.Offset = offsets.Get(position);
+                }
+            }
+            this.Owner.AddComponentByName("AutoOrientToVelocity");
+            this.Owner.AutoOrientToVelocity.AngleOffset = 90;
+            this.Owner.BasicAI.Connect();
+        }
+        //Switch to FireFly
         if(Zero.Keyboard.KeyIsPressed(Keys.F) && this.Owner.FireFlyAI == null)
         {
+            this.DeleteCurType();
             this.Owner.AddComponentByName("FireFlyAI");
             foreach(var i in this.Units)
             {
@@ -55,11 +78,32 @@ class Commander : ZilchComponent
                 }
             }
             this.Owner.RigidBody.RotationLocked = true;
-            this.Owner.RemoveComponentByName("BasicAI");
-            this.Owner.RemoveComponentByName("AutoOrientToVelocity");
             this.Owner.Transform.EulerAngles = Real3(0, 0, 0);
             this.Owner.FireFlyAI.Connect();
         }
+        //Switch to Wizard
+        if(Zero.Keyboard.KeyIsPressed(Keys.W) && this.Owner.WizardAI == null)
+        {
+            this.DeleteCurType();
+            this.Owner.AddComponentByName("WizardAI");
+            foreach(var i in this.Units)
+            {
+                if(i!=null){
+                    var position = this.Units.FindFirstIndex(i);
+                    var offsets = Array[Real3]();
+                    offsets.Add(Real3(0.5,-0.5,0));
+                    offsets.Add(Real3(0.25,-0.25,0));
+                    offsets.Add(Real3(-0.25,-0.25,0));
+                    offsets.Add(Real3(-0.5,-0.5,0));
+                    i.Slave.Offset = offsets.Get(position);
+                }
+            }
+            this.Owner.AddComponentByName("AutoOrientToVelocity");
+            this.Owner.AutoOrientToVelocity.AngleOffset = 90;
+            this.Owner.WizardAI.Connect();
+        }
+        
+        
         if(this.Owner.HP!=null && this.Owner.HP.HP <= 0) this.Owner.Destroy();
         if(!this.PlayerControlled)
         {
@@ -77,5 +121,33 @@ class Commander : ZilchComponent
         offsets.Add(Real3(-0.25,-0.25,0));
         offsets.Add(Real3(0.25,0.25,0));
         this.Units.Get(yoIDontWantToNameThis).Slave.Offset = offsets.Get(yoIDontWantToNameThis);
+    }
+
+    function DeleteCurType()
+    {
+        if(this.Owner.BasicAI != null)
+        {
+            this.Owner.RemoveComponentByName("BasicAI");
+            this.Owner.RemoveComponentByName("AutoOrientToVelocity");
+        }
+        if(this.Owner.FireFlyAI != null)
+        {
+            this.Owner.RemoveComponentByName("FireFlyAI");
+            foreach(var i in this.Units)
+            {
+                i.RemoveComponentByName("Aura");
+                i.RigidBody.RotationLocked = false;
+                if(i.SphericalParticleEmitter !=null)
+                {
+                    i.SphericalParticleEmitter.Active=false;
+                }
+            }
+            this.Owner.RigidBody.RotationLocked = false;
+        }
+        if(this.Owner.WizardAI != null)
+        {
+            this.Owner.RemoveComponentByName("WizardAI");
+            this.Owner.RemoveComponentByName("AutoOrientToVelocity");
+        }
     }
 }

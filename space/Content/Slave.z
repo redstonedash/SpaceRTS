@@ -2,8 +2,8 @@ class Slave : ZilchComponent
 {
     [Property]
     var HP:Real = 1.0;
-    [Property]
-    var TeamColor:Integer=0;
+    //[Property]
+    //var TeamColor:Integer=0;
     var CogBoi:Cog=null;
     var RealBoi:Real=0;
     var Offset:Real3=Real3();
