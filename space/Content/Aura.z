@@ -13,17 +13,8 @@ class Aura : ZilchComponent
         {
             if(hit.ObjectHit.HP != null && hit.ObjectHit.Name != this.Owner.Name)
             {
-                hit.ObjectHit.HP.HP -= 0.001;
+                hit.ObjectHit.HP.HP -= 0.0015;
             }
-        }
-    }
-
-    function DuringCollision(event : CollisionEvent)
-    {
-        if(!event.OtherObject.Name.Contains(this.Owner.Parent.Name))
-        {
-            event.OtherObject.HP.HP -= 0.0005;
-            //Console.WriteLine("AY");
         }
     }
 }
