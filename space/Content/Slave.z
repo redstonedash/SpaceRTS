@@ -47,7 +47,7 @@ class Slave : ZilchComponent
     }
     function OnLogicUpdate(event : UpdateEvent)
     {
-        if(this.Owner.HP.HP<0)
+        if(this.Owner.HP.HP<=0)
         {
             this.LevelSettings.ManageDrones.SendDeathEvent(this.Owner, this.CogBoi);
         }

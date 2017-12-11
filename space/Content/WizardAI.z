@@ -7,12 +7,12 @@ class WizardAI : ZilchComponent
     }
     function OnLogicUpdate(event : UpdateEvent)
     {
-        if(this.Owner.Commander.Xbone.RightTrigger >= 0.5)
+        /*if(this.Owner.Commander.Xbone.RightTrigger >= 0.5)
         {
             
             this.Owner.Commander.Units.Get(this.Owner.Commander.Units.LastIndex).HP.HP = 0;
             
-        }
+        }*/
         
         //THIS CONTROLS THE COMMANDER
         this.NearDirection=Real3(this.Owner.Commander.Xbone.LeftStick.XY,0);

@@ -1,6 +1,8 @@
 class Commander : ZilchComponent
 {
     //var NearDirection : Real3 = Real3();
+    [Property]
+    var WizardAmmo : Archetype = null;
     var FarDirection : Real3 = Real3();
     var Xbone:Gamepad;
     [Property]
@@ -98,8 +100,10 @@ class Commander : ZilchComponent
                     i.Slave.Offset = offsets.Get(position);
                 }
             }
+            this.Owner.AddComponentByName("WizardFire");
             this.Owner.AddComponentByName("AutoOrientToVelocity");
             this.Owner.AutoOrientToVelocity.AngleOffset = 90;
+            this.Owner.WizardFire.Connect();
             this.Owner.WizardAI.Connect();
         }
         
@@ -147,6 +151,7 @@ class Commander : ZilchComponent
         if(this.Owner.WizardAI != null)
         {
             this.Owner.RemoveComponentByName("WizardAI");
+            this.Owner.RemoveComponentByName("WizardFire");
             this.Owner.RemoveComponentByName("AutoOrientToVelocity");
         }
     }

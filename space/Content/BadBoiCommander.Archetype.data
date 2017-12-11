@@ -60,9 +60,10 @@ Cog =
 	},
 	Commander = 
 	{
+		string WizardAmmo = "5a96c5f3882be09d:BadBomb",
 		int PlayerNum = 1,
 		bool PlayerControlled = false,
-		string ArchBoi = "5abde67298d6f324:BadBoi",
+		string ArchBoi = "5a96ca60b66e7b57:BadBoi",
 	},
 	SpriteParticleSystem = 
 	{
