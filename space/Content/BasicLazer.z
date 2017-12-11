@@ -1,0 +1,20 @@
+class BasicLazer : ZilchComponent
+{
+    function Connect()
+    {
+        Zero.Connect(this.Space, Events.LogicUpdate, this.OnLogicUpdate);
+    }
+    function OnLogicUpdate(event : UpdateEvent)
+    {
+        this.Owner.Slave.CogBoi.Commander.Xbone.RightTrigger;
+        var ray = Ray();
+        ray.Start = this.Owner.Transform.Translation;
+        ray.Direction = this.Owner.Orientation.WorldForward;
+        var count = 10;
+        var results = this.Space.PhysicsSpace.CastRayResults(ray, count);
+        foreach(var item in results)
+        {
+            item. l]
+        }
+    }
+}

@@ -1,0 +1,8 @@
+TextContent = 
+{
+	ZilchScriptBuilder = 
+	{
+		string Name = "BasicLazer",
+		uint64 ResourceId = 5a92d2620551ce7b,
+	},
+},

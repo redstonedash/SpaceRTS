@@ -135,7 +135,7 @@ class Commander : ZilchComponent
             this.Owner.RemoveComponentByName("FireFlyAI");
             foreach(var i in this.Units)
             {
-                i.RemoveComponentByName("Aura");
+                if(i.Aura!=null) i.RemoveComponentByName("Aura");
                 i.RigidBody.RotationLocked = false;
                 if(i.SphericalParticleEmitter !=null)
                 {
