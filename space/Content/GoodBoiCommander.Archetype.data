@@ -60,6 +60,7 @@ Cog =
 	},
 	Commander = 
 	{
+		string WizardAmmo = "5a96c57b61f8bdf6:GoodBomb",
 		int PlayerNum = 0,
 		bool PlayerControlled = false,
 		string ArchBoi = "5abde6679ad7e0c8:GoodBoi",
