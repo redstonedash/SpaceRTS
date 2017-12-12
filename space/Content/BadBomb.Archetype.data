@@ -8,6 +8,10 @@ Cog =
 	{
 		string Name = "BadBomb",
 	},
+	Archetyped = 
+	{
+		string Name = "5a96c5f3882be09d:BadBomb",
+	},
 	Transform = 
 	{
 		Vec3 Translation = [0, 0, 0],
@@ -60,6 +64,11 @@ Cog =
 		Vec3 UpVector = [0, 0, 1],
 		Vec3 ForwardVector = [1, 0, 0],
 		OrientationBases DefaultBases = ForwardXUpZ,
+	},
+	ExplodeBoi = 
+	{
+		string Explode = "5a8c15c2feeb19bb:WizardExplosion",
+		string NameToIgnore = "BadBoi",
 	},
 	Hierarchy = 
 	{

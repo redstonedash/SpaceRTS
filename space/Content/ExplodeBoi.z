@@ -1,0 +1,26 @@
+class ExplodeBoi : ZilchComponent
+{
+    [Property]
+    var Explode : Archetype;
+    [Property]
+    var NameToIgnore : String;
+    var XBone : Gamepad;
+    function Connect()
+    {
+        Zero.Connect(this.Space, Events.LogicUpdate, this.OnLogicUpdate);
+    }
+
+    function OnLogicUpdate(event : UpdateEvent)
+    {
+        if(this.XBone.RightTrigger < 0.25)
+        {
+            var feild = this.Space.CreateAtPosition(this.Explode, this.Owner.Transform.Translation);
+            feild.ExplosionDamage.NameToIgnore = this.NameToIgnore;
+            this.Owner.Destroy();
+        }
+        /*else
+        {
+            this.Detonator += event.Dt;
+        }*/
+    }
+}
