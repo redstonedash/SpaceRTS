@@ -18,7 +18,10 @@ class WizardFire : ZilchComponent
             if(this.UnitBoi != null)
             {
                 Console.WriteLine("ahh");
-                this.Space.CreateAtPosition(this.Owner.Commander.WizardAmmo, this.UnitBoi.Transform.Translation);
+                var bombGuy = this.Space.CreateAtPosition(this.Owner.Commander.WizardAmmo, this.UnitBoi.Transform.Translation);
+                bombGuy.RigidBody.Velocity = this.UnitBoi.RigidBody.Velocity*2;
+                bombGuy.ExplodeBoi.XBone = this.Owner.Commander.Xbone;
+                bombGuy.ExplodeBoi.Connect();
                 this.UnitBoi.HP.HP = 0;
                 this.UnitBoi = this.NullBoi;
                 this.NotDown = false;

@@ -1,0 +1,31 @@
+class ExplosionDamage : ZilchComponent
+{
+    var NameToIgnore : String;
+    var Decay : Real = 0;
+    
+    function Initialize(init : CogInitializer)
+    {
+        Zero.Connect(this.Space, Events.LogicUpdate, this.OnLogicUpdate);
+        Zero.Connect(this.Owner, Events.CollisionPersisted, this.CollisionPersisted);
+    }
+
+    function CollisionPersisted(event : CollisionEvent)
+    {
+        if(event.OtherObject.HP != null && event.OtherObject.Name != this.NameToIgnore)
+        {
+            event.OtherObject.HP.HP -= 0.01;
+        }
+    }
+
+    function OnLogicUpdate(event : UpdateEvent)
+    {
+        if(this.Decay >= 5)
+        {
+            this.Owner.Destroy();
+        }
+        else
+        {
+            this.Decay += event.Dt;
+        }
+    }
+}

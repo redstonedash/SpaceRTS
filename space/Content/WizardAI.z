@@ -15,7 +15,7 @@ class WizardAI : ZilchComponent
         }*/
         
         //THIS CONTROLS THE COMMANDER
-        this.NearDirection=Real3(this.Owner.Commander.Xbone.LeftStick.XY,0);
+        //this.NearDirection=Real3(this.Owner.Commander.Xbone.LeftStick.XY,0);
         
         this.NearDirection=Real3(this.Owner.Commander.Xbone.LeftStick.XY*0.2,0);
         if(this.Owner.Commander.PlayerControlled)this.Owner.RigidBody.Velocity+=this.NearDirection;

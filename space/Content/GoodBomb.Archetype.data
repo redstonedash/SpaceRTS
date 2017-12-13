@@ -65,6 +65,11 @@ Cog =
 		Vec3 ForwardVector = [1, 0, 0],
 		OrientationBases DefaultBases = ForwardXUpZ,
 	},
+	ExplodeBoi = 
+	{
+		string Explode = "5a8c15c2feeb19bb:WizardExplosion",
+		string NameToIgnore = "GoodBoi",
+	},
 	Hierarchy = 
 	{
 		Cog = 
