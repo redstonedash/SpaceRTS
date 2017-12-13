@@ -94,6 +94,7 @@ class Slave : ZilchComponent
             this.Owner.AddComponentByName("Aura");
             this.Owner.Transform.Rotation = Quaternion();
             this.Owner.RigidBody.RotationLocked = true;
+            this.Owner.SphericalParticleEmitter.Active = true;
             this.Owner.Aura.Connect();
         }
         if(this.CogBoi.WizardAI != null)
