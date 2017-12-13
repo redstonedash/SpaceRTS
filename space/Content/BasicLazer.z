@@ -2,19 +2,33 @@ class BasicLazer : ZilchComponent
 {
     function Connect()
     {
+        Console.WriteLine("issue solved");
         Zero.Connect(this.Space, Events.LogicUpdate, this.OnLogicUpdate);
     }
     function OnLogicUpdate(event : UpdateEvent)
     {
-        this.Owner.Slave.CogBoi.Commander.Xbone.RightTrigger;
-        var ray = Ray();
-        ray.Start = this.Owner.Transform.Translation;
-        ray.Direction = this.Owner.Orientation.WorldForward;
-        var count = 10;
-        var results = this.Space.PhysicsSpace.CastRayResults(ray, count);
-        foreach(var item in results)
+        if(this.Owner.Slave.CogBoi!=null) Console.WriteLine("ESKETIIT");
+        if(this.Owner.Slave.CogBoi!=null && this.Owner.Slave.CogBoi.Commander.Xbone.RightTrigger>0.9)
         {
-            item. l]
+            var ray = Ray();
+            ray.Start = this.Owner.Transform.Translation;
+            //ray.Direction = Real3(Math.Cos(this.Owner.Transform.EulerAngles.Z),Math.Sin(this.Owner.Transform.EulerAngles.Z),0);
+            ray.Direction = Math.Normalize(this.Owner.RigidBody.Velocity);
+            var count = 10;
+            var results = this.Space.PhysicsSpace.CastRayResults(ray, count);
+            foreach(var item in results)
+            {
+                if(!(item.ObjectHit.Name.Contains(this.Owner.Name))&&item.ObjectHit.HP!=null)
+                {
+                    item.ObjectHit.HP.HP-= Math.Min(0.05,0.05/Math.Distance(item.ObjectHit.Transform.Translation,this.Owner.Transform.Translation));
+                }
+            }
+            var line = DebugLine();
+            line.Float4Color(Real4(1,0,1,1));
+            line.Start(ray.Start);
+            line.End(ray.Start+ray.Direction*100);
+            line.Draw();
+            Console.WriteLine("ran");
         }
     }
 }

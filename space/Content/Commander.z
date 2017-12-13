@@ -24,8 +24,14 @@ class Commander : ZilchComponent
         offsets.Add(Real3(-0.5,-0.5,0));
         for(var i = 0; i<4; ++i)
         {
+            Console.WriteLine("ey");
             this.Units.Add(this.Space.CreateAtPosition(this.ArchBoi, this.Owner.Transform.Translation));
             this.Units[i].Slave.Offset=offsets[i];
+            this.Units[i].AddComponentByName("BasicLazer");
+            this.Units[i].BasicLazer.Connect();
+            this.Units[i].AddComponentByName("AutoOrientToVelocity");
+            this.Units[i].AutoOrientToVelocity.AngleOffset=90;
+            this.Units[i].Slave.CogBoi=this.Owner;
         }
         this.Xbone = Zero.Gamepads.GetGamePad(this.PlayerNum);
         Zero.Connect(this.Space, Events.LogicUpdate, this.OnLogicUpdate);
@@ -48,6 +54,10 @@ class Commander : ZilchComponent
                     offsets.Add(Real3(-0.25,-0.25,0));
                     offsets.Add(Real3(-0.5,-0.5,0));
                     i.Slave.Offset = offsets.Get(position);
+                    i.AddComponentByName("BasicLazer");
+                    i.BasicLazer.Connect();
+                    i.AddComponentByName("AutoOrientToVelocity");
+                    i.AutoOrientToVelocity.AngleOffset=90;
                 }
             }
             this.Owner.AddComponentByName("AutoOrientToVelocity");
@@ -132,6 +142,11 @@ class Commander : ZilchComponent
         if(this.Owner.BasicAI != null)
         {
             this.Owner.RemoveComponentByName("BasicAI");
+            foreach(var slaves in this.Units)
+            {
+                slaves.RemoveComponentByName("BasicLazer");
+                slaves.RemoveComponentByName("AutoOrientToVelocity");
+            }
             this.Owner.RemoveComponentByName("AutoOrientToVelocity");
         }
         if(this.Owner.FireFlyAI != null)
