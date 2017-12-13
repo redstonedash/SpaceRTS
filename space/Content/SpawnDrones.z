@@ -1,0 +1,29 @@
+class SpawnDrones : ZilchComponent
+{
+    var Timer : Real = 20;
+    var TimerCurTime : Real = 0;
+    [Property]
+    var GoodBoi : Archetype;
+    [Property]
+    var BadBoi : Archetype;
+    
+    function Initialize(init : CogInitializer)
+    {
+        Zero.Connect(this.Space, Events.LogicUpdate, this.OnLogicUpdate);
+    }
+
+    function OnLogicUpdate(event : UpdateEvent)
+    {
+        if(this.TimerCurTime >= this.Timer)
+        {
+            this.Space.CreateAtPosition(this.GoodBoi, Real3(0, 5, 0));
+            this.Space.CreateAtPosition(this.BadBoi, Real3(0, -5, 0));
+            this.Timer = this.Owner.RandomContext.BellCurveRange(20, 5);
+            this.TimerCurTime = 0;
+        }
+        else
+        {
+            this.TimerCurTime += event.Dt;
+        }
+    }
+}

@@ -1,0 +1,8 @@
+TextContent = 
+{
+	ZilchScriptBuilder = 
+	{
+		string Name = "SpawnDrones",
+		uint64 ResourceId = 5a8d4955cfaa2eaa,
+	},
+},

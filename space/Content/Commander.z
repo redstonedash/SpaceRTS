@@ -86,7 +86,7 @@ class Commander : ZilchComponent
                     i.Slave.Offset = offsets.Get(position);
                     i.Transform.EulerAngles = Real3(0, 0, 0);
                     i.AddComponentByName("Aura");
-                    Zero.Connect(i.Space, Events.LogicUpdate, i.Aura.OnLogicUpdate);
+                    i.Aura.Connect();
                 }
             }
             this.Owner.RigidBody.RotationLocked = true;

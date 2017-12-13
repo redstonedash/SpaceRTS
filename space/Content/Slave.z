@@ -14,7 +14,7 @@ class Slave : ZilchComponent
         Zero.Connect(this.LevelSettings, Events.YoSomeoneDied, this.OnEmpty);
         if(this.LevelSettings.ManageDrones.EmptySpaces.Count != 0)
         {
-            Console.WriteLine("yo");
+            //Console.WriteLine("yo");
             foreach(var i in this.LevelSettings.ManageDrones.Commanders)
             {
                 if(i.Name.Contains(this.Owner.Name))
@@ -36,6 +36,7 @@ class Slave : ZilchComponent
                     this.Offset = offsets.Get(this.CogBoi.Commander.Units.FindFirstIndex(this.Owner));
                     this.LevelSettings.ManageDrones.EmptySpaces.RemoveAt(0);
                     this.LevelSettings.ManageDrones.Commanders.RemoveAt(0);
+                    this.InheritCommanderType();
                 }
                 else
                 {
@@ -60,11 +61,33 @@ class Slave : ZilchComponent
             Console.WriteLine(event.CommandBoi.Commander.Units.FindFirstIndex(null));
             if(event.CommandBoi.Name.Contains(this.Owner.Name))
             {
-                Console.WriteLine("AHHHHHHH");
+                //Console.WriteLine("AHHHHHHH");
                 event.CommandBoi.Commander.Units.Set(event.IndexBoi, this.Owner);
                 this.CogBoi = event.CommandBoi;
                 this.CogBoi.Commander.NewBoi(event.IndexBoi);
+                this.InheritCommanderType();
             }
+        }
+    }
+
+    function InheritCommanderType()
+    {
+        if(this.CogBoi.BasicAI != null)
+        {
+            this.Owner.AddComponentByName("BasicLazer");
+            this.Owner.AddComponentByName("AutoOrientToVelocity");
+            this.Owner.BasicLazer.Connect();
+            this.Owner.AutoOrientToVelocity.AngleOffset = 90;
+        }
+        if(this.CogBoi.FireFlyAI != null)
+        {
+            this.Owner.AddComponentByName("Aura");
+            this.Owner.Transform.Rotation = Quaternion();
+            this.Owner.RigidBody.RotationLocked = true;
+            this.Owner.Aura.Connect();
+        }
+        if(this.CogBoi.WizardAI != null)
+        {
         }
     }
 }

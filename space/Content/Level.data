@@ -79,6 +79,16 @@ Level =
 		ManageDrones = 
 		{
 		},
+		SpawnDrones = 
+		{
+			string GoodBoi = "5abde6679ad7e0c8:GoodBoi",
+			string BadBoi = "5a96ca60b66e7b57:BadBoi",
+		},
+		RandomContext = 
+		{
+			bool RandomSeed = false,
+			uint Seed = 1739396380,
+		},
 	},
 	Cog = 
 	{

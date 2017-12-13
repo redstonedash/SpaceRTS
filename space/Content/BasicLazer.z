@@ -2,12 +2,12 @@ class BasicLazer : ZilchComponent
 {
     function Connect()
     {
-        Console.WriteLine("issue solved");
+        //Console.WriteLine("issue solved");
         Zero.Connect(this.Space, Events.LogicUpdate, this.OnLogicUpdate);
     }
     function OnLogicUpdate(event : UpdateEvent)
     {
-        if(this.Owner.Slave.CogBoi!=null) Console.WriteLine("ESKETIIT");
+        //if(this.Owner.Slave.CogBoi!=null) Console.WriteLine("ESKETIIT");
         if(this.Owner.Slave.CogBoi!=null && this.Owner.Slave.CogBoi.Commander.Xbone.RightTrigger>0.9)
         {
             var ray = Ray();
@@ -28,7 +28,7 @@ class BasicLazer : ZilchComponent
             line.Start(ray.Start);
             line.End(ray.Start+ray.Direction*100);
             line.Draw();
-            Console.WriteLine("ran");
+            //Console.WriteLine("ran");
         }
     }
 }

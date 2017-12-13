@@ -1,8 +1,8 @@
 class Aura : ZilchComponent
 {
-    function Initialize(init : CogInitializer)
+    function Connect()
     {
-        //Zero.Connect(this.Space, Events.LogicUpdate, this.OnLogicUpdate);
+        Zero.Connect(this.Space, Events.LogicUpdate, this.OnLogicUpdate);
         //Zero.Connect(this.Owner, Events.CollisionPersisted, this.DuringCollision);
     }
 
