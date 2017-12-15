@@ -191,7 +191,9 @@ class Commander : ZilchComponent
             this.Owner.RemoveComponentByName("BasicAI");
             foreach(var slaves in this.Units)
             {
+                if(slaves.GetComponentByName("BasicLaser") != null)
                 slaves.RemoveComponentByName("BasicLazer");
+                if(slaves.GetComponentByName("AutoOrientToVelocity") != null)
                 slaves.RemoveComponentByName("AutoOrientToVelocity");
             }
             this.Owner.RemoveComponentByName("AutoOrientToVelocity");
