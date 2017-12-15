@@ -17,10 +17,13 @@ class Slave : ZilchComponent
             //Console.WriteLine("yo");
             foreach(var i in this.LevelSettings.ManageDrones.Commanders)
             {
-                if(i.Name.Contains(this.Owner.Name))
+                if(i!=null)
                 {
-                    this.CogBoi = i;
-                    break;
+                    if(i.Name.Contains(this.Owner.Name))
+                    {
+                        this.CogBoi = i;
+                        break;
+                    }
                 }
             }
             if(this.CogBoi != this.NullBoi)
