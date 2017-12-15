@@ -15,25 +15,28 @@ class WizardFire : ZilchComponent
         var xBone = this.Owner.Commander.Xbone;
         if(xBone.RightTrigger >= 0.9 && this.NotDown)
         {
-            if(this.UnitBoi != null)
+            if(this.Owner.Commander.PlayerControlled)
             {
-                Console.WriteLine("ahh");
-                var bombGuy = this.Space.CreateAtPosition(this.Owner.Commander.WizardAmmo, this.UnitBoi.Transform.Translation);
-                bombGuy.RigidBody.Velocity = this.UnitBoi.RigidBody.Velocity*2;
-                bombGuy.ExplodeBoi.XBone = this.Owner.Commander.Xbone;
-                bombGuy.ExplodeBoi.Connect();
-                this.UnitBoi.HP.HP = 0;
-                this.UnitBoi = this.NullBoi;
-                this.NotDown = false;
-            }
-            else
-            {
-                Console.WriteLine("AHH");
-                foreach(var unit in this.Owner.Commander.Units)
+                if(this.UnitBoi != null)
                 {
-                    if(unit != null)
+                    Console.WriteLine("ahh");
+                    var bombGuy = this.Space.CreateAtPosition(this.Owner.Commander.WizardAmmo, this.UnitBoi.Transform.Translation);
+                    bombGuy.RigidBody.Velocity = this.UnitBoi.RigidBody.Velocity*2;
+                    bombGuy.ExplodeBoi.XBone = this.Owner.Commander.Xbone;
+                    bombGuy.ExplodeBoi.Connect();
+                    this.UnitBoi.HP.HP = 0;
+                    this.UnitBoi = this.NullBoi;
+                    this.NotDown = false;
+                }
+                else
+                {
+                    Console.WriteLine("AHH");
+                    foreach(var unit in this.Owner.Commander.Units)
                     {
-                        this.UnitBoi = unit;
+                        if(unit != null)
+                        {
+                            this.UnitBoi = unit;
+                        }
                     }
                 }
             }

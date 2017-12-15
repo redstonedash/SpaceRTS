@@ -8,7 +8,7 @@ class BasicLazer : ZilchComponent
     function OnLogicUpdate(event : UpdateEvent)
     {
         //if(this.Owner.Slave.CogBoi!=null) Console.WriteLine("ESKETIIT");
-        if(this.Owner.Slave.CogBoi!=null && this.Owner.Slave.CogBoi.Commander.Xbone.RightTrigger>0.9)
+        if(this.Owner.Slave.CogBoi!=null && this.Owner.Slave.CogBoi.Commander.PlayerControlled && this.Owner.Slave.CogBoi.Commander.Xbone.RightTrigger>0.9)
         {
             var ray = Ray();
             ray.Start = this.Owner.Transform.Translation;
