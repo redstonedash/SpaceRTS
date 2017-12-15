@@ -64,6 +64,7 @@ Cog =
 		int PlayerNum = 1,
 		bool PlayerControlled = false,
 		string ArchBoi = "5a96ca60b66e7b57:BadBoi",
+		string EvolveBar = "5a881778b2de93aa:Evolve",
 	},
 	SpriteParticleSystem = 
 	{

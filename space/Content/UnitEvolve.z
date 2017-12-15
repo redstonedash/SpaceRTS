@@ -1,0 +1,17 @@
+class UnitEvolve : ZilchComponent
+{
+    var Daddy : Cog;
+    function Initialize(init : CogInitializer)
+    {
+        Zero.Connect(this.Space, Events.LogicUpdate, this.OnLogicUpdate);
+    }
+
+    function OnLogicUpdate(event : UpdateEvent)
+    {
+        if(this.Daddy != null)
+        {
+            this.Owner.Area.Size = Real2(this.Daddy.Commander.EvolutionTimer/30, 0.1);
+            this.Owner.Parent.Transform.Translation = this.Daddy.Transform.Translation + Real3(0, 0.5, 0);
+        }
+    }
+}

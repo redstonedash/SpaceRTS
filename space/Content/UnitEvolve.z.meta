@@ -1,0 +1,8 @@
+TextContent = 
+{
+	ZilchScriptBuilder = 
+	{
+		string Name = "UnitEvolve",
+		uint64 ResourceId = 5a8816bd85d04b75,
+	},
+},

@@ -12,6 +12,10 @@ class Commander : ZilchComponent
     var Units:Array[Cog] = Array[Cog]();
     [Property]
     var ArchBoi:Archetype = null;
+    var EvolutionTimer : Real = 0;
+    [Property]
+    var EvolveBar : Archetype;
+    var EvolutionBarCog : Cog;
     
     function Initialize(init : CogInitializer)
     {
@@ -33,92 +37,126 @@ class Commander : ZilchComponent
             this.Units[i].AutoOrientToVelocity.AngleOffset=90;
             this.Units[i].Slave.CogBoi=this.Owner;
         }
+        this.EvolutionBarCog = this.Space.CreateAtPosition(this.EvolveBar, this.Owner.Transform.Translation + Real3(0, 0.5, 0));
+        this.EvolutionBarCog.FindChildByName("EvolveGreen").UnitEvolve.Daddy = this.Owner;
         this.Xbone = Zero.Gamepads.GetGamePad(this.PlayerNum);
         Zero.Connect(this.Space, Events.LogicUpdate, this.OnLogicUpdate);
     }
 
     function OnLogicUpdate(event : UpdateEvent)
     {
-        //Switch to Basic
-        if(Zero.Keyboard.KeyIsPressed(Keys.B) && this.Owner.BasicAI == null)
+        if(this.Xbone.RightTrigger < 0.25 && this.EvolutionTimer <= 30)
         {
-            this.DeleteCurType();
-            this.Owner.AddComponentByName("BasicAI");
-            foreach(var i in this.Units)
-            {
-                if(i!=null){
-                    var position = this.Units.FindFirstIndex(i);
-                    var offsets = Array[Real3]();
-                    offsets.Add(Real3(0.5,-0.5,0));
-                    offsets.Add(Real3(0.25,-0.25,0));
-                    offsets.Add(Real3(-0.25,-0.25,0));
-                    offsets.Add(Real3(-0.5,-0.5,0));
-                    i.Slave.Offset = offsets.Get(position);
-                    i.AddComponentByName("BasicLazer");
-                    i.BasicLazer.Connect();
-                    i.AddComponentByName("AutoOrientToVelocity");
-                    i.AutoOrientToVelocity.AngleOffset=90;
-                }
-            }
-            this.Owner.AddComponentByName("AutoOrientToVelocity");
-            this.Owner.AutoOrientToVelocity.AngleOffset = 90;
-            this.Owner.BasicAI.Connect();
+            this.EvolutionTimer += event.Dt;
         }
-        //Switch to FireFly
-        if(Zero.Keyboard.KeyIsPressed(Keys.F) && this.Owner.FireFlyAI == null)
+        if(this.PlayerControlled == true)
         {
-            this.DeleteCurType();
-            this.Owner.AddComponentByName("FireFlyAI");
-            foreach(var i in this.Units)
+            //Switch to Basic
+            if(this.Xbone.IsButtonPressed(2) && this.Owner.BasicAI == null && this.EvolutionTimer >= 30)
             {
-                if(i!=null){
-                    if(i.SphericalParticleEmitter !=null)
-                    {
-                        i.SphericalParticleEmitter.Active=true;
+                this.DeleteCurType();
+                this.Owner.AddComponentByName("BasicAI");
+                foreach(var i in this.Units)
+                {
+                    if(i!=null){
+                        var position = this.Units.FindFirstIndex(i);
+                        var offsets = Array[Real3]();
+                        offsets.Add(Real3(0.5,-0.5,0));
+                        offsets.Add(Real3(0.25,-0.25,0));
+                        offsets.Add(Real3(-0.25,-0.25,0));
+                        offsets.Add(Real3(-0.5,-0.5,0));
+                        i.Slave.Offset = offsets.Get(position);
+                        i.AddComponentByName("BasicLazer");
+                        i.BasicLazer.Connect();
+                        i.AddComponentByName("AutoOrientToVelocity");
+                        i.AutoOrientToVelocity.AngleOffset=90;
                     }
-                    i.RigidBody.RotationLocked = true;
-                    var position = this.Units.FindFirstIndex(i);
-                    var offsets = Array[Real3]();
-                    offsets.Add(Real3(-0.25,0.25,0));
-                    offsets.Add(Real3(0.25,-0.25,0));
-                    offsets.Add(Real3(-0.25,-0.25,0));
-                    offsets.Add(Real3(0.25,0.25,0));
-                    i.Slave.Offset = offsets.Get(position);
-                    i.Transform.EulerAngles = Real3(0, 0, 0);
-                    i.AddComponentByName("Aura");
-                    i.Aura.Connect();
+                }
+                this.Owner.AddComponentByName("AutoOrientToVelocity");
+                this.Owner.AutoOrientToVelocity.AngleOffset = 90;
+                this.Owner.BasicAI.Connect();
+                if(this.Owner.HP != null)
+                this.EvolutionTimer = 0;
+                if(this.Owner.HP != null)
+                {
+                    this.Owner.HP.HP = 5;
                 }
             }
-            this.Owner.RigidBody.RotationLocked = true;
-            this.Owner.Transform.EulerAngles = Real3(0, 0, 0);
-            this.Owner.FireFlyAI.Connect();
-        }
-        //Switch to Wizard
-        if(Zero.Keyboard.KeyIsPressed(Keys.W) && this.Owner.WizardAI == null)
-        {
-            this.DeleteCurType();
-            this.Owner.AddComponentByName("WizardAI");
-            foreach(var i in this.Units)
+            //Switch to FireFly
+            if(this.Xbone.IsButtonPressed(0) && this.Owner.FireFlyAI == null && this.EvolutionTimer >= 30)
             {
-                if(i!=null){
-                    var position = this.Units.FindFirstIndex(i);
-                    var offsets = Array[Real3]();
-                    offsets.Add(Real3(0.5,-0.5,0));
-                    offsets.Add(Real3(0.25,-0.25,0));
-                    offsets.Add(Real3(-0.25,-0.25,0));
-                    offsets.Add(Real3(-0.5,-0.5,0));
-                    i.Slave.Offset = offsets.Get(position);
+                this.DeleteCurType();
+                this.Owner.AddComponentByName("FireFlyAI");
+                foreach(var i in this.Units)
+                {
+                    if(i!=null){
+                        if(i.SphericalParticleEmitter !=null)
+                        {
+                            i.SphericalParticleEmitter.Active=true;
+                        }
+                        i.RigidBody.RotationLocked = true;
+                        var position = this.Units.FindFirstIndex(i);
+                        var offsets = Array[Real3]();
+                        offsets.Add(Real3(-0.25,0.25,0));
+                        offsets.Add(Real3(0.25,-0.25,0));
+                        offsets.Add(Real3(-0.25,-0.25,0));
+                        offsets.Add(Real3(0.25,0.25,0));
+                        i.Slave.Offset = offsets.Get(position);
+                        i.Transform.EulerAngles = Real3(0, 0, 0);
+                        i.AddComponentByName("Aura");
+                        i.Aura.Connect();
+                    }
+                }
+                this.Owner.RigidBody.RotationLocked = true;
+                this.Owner.Transform.EulerAngles = Real3(0, 0, 0);
+                this.Owner.FireFlyAI.Connect();
+                this.EvolutionTimer = 0;
+                if(this.Owner.HP != null)
+                {
+                    this.Owner.HP.HP = 5;
                 }
             }
-            this.Owner.AddComponentByName("WizardFire");
-            this.Owner.AddComponentByName("AutoOrientToVelocity");
-            this.Owner.AutoOrientToVelocity.AngleOffset = 90;
-            this.Owner.WizardFire.Connect();
-            this.Owner.WizardAI.Connect();
+            //Switch to Wizard
+            if(this.Xbone.IsButtonPressed(1) && this.Owner.WizardAI == null && this.EvolutionTimer >= 30)
+            {
+                this.DeleteCurType();
+                this.Owner.AddComponentByName("WizardAI");
+                foreach(var i in this.Units)
+                {
+                    if(i!=null)
+                    {
+                        var position = this.Units.FindFirstIndex(i);
+                        var offsets = Array[Real3]();
+                        offsets.Add(Real3(0.5,-0.5,0));
+                        offsets.Add(Real3(0.25,-0.25,0));
+                        offsets.Add(Real3(-0.25,-0.25,0));
+                        offsets.Add(Real3(-0.5,-0.5,0));
+                        i.Slave.Offset = offsets.Get(position);
+                    }
+                }
+                this.Owner.AddComponentByName("WizardFire");
+                this.Owner.AddComponentByName("AutoOrientToVelocity");
+                this.Owner.AutoOrientToVelocity.AngleOffset = 90;
+                this.Owner.WizardFire.Connect();
+                this.Owner.WizardAI.Connect();
+                this.EvolutionTimer = 0;
+                if(this.Owner.HP != null)
+                {
+                    this.Owner.HP.HP = 5;
+                }
+            }
         }
         
         
-        if(this.Owner.HP!=null && this.Owner.HP.HP <= 0) this.Owner.Destroy();
+        if(this.Owner.HP!=null && this.Owner.HP.HP <= 0)
+        {
+            this.EvolutionBarCog.Destroy();
+            foreach(var unit in this.Units)
+            {
+                unit.Slave.CogBoi = unit.Slave.NullBoi;
+            }
+            this.Owner.Destroy();
+        }
         if(!this.PlayerControlled)
         {
             this.Owner.SpriteParticleSystem.Visible=false;
