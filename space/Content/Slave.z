@@ -32,10 +32,20 @@ class Slave : ZilchComponent
                 {
                     this.CogBoi.Commander.Units.Set(this.CogBoi.Commander.Units.FindFirstIndex(this.NullBoi), this.Owner);
                     var offsets = Array[Real3]();
-                    offsets.Add(Real3(-0.25,0.25,0));
-                    offsets.Add(Real3(0.25,-0.25,0));
-                    offsets.Add(Real3(-0.25,-0.25,0));
-                    offsets.Add(Real3(0.25,0.25,0));
+                    if(this.CogBoi.FireFlyAI != null)
+                    {
+                        offsets.Add(Real3(-0.25,0.25,0));
+                        offsets.Add(Real3(0.25,-0.25,0));
+                        offsets.Add(Real3(-0.25,-0.25,0));
+                        offsets.Add(Real3(0.25,0.25,0));
+                    }
+                    else
+                    {
+                        offsets.Add(Real3(0.5,-0.5,0));
+                        offsets.Add(Real3(0.25,-0.25,0));
+                        offsets.Add(Real3(-0.25,-0.25,0));
+                        offsets.Add(Real3(-0.5,-0.5,0));
+                    }
                     this.Offset = offsets.Get(this.CogBoi.Commander.Units.FindFirstIndex(this.Owner));
                     this.LevelSettings.ManageDrones.EmptySpaces.RemoveAt(0);
                     this.LevelSettings.ManageDrones.Commanders.RemoveAt(0);
@@ -87,6 +97,7 @@ class Slave : ZilchComponent
             this.Owner.AddComponentByName("Aura");
             this.Owner.Transform.Rotation = Quaternion();
             this.Owner.RigidBody.RotationLocked = true;
+            this.Owner.SphericalParticleEmitter.Active = true;
             this.Owner.Aura.Connect();
         }
         if(this.CogBoi.WizardAI != null)
