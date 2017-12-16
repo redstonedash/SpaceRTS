@@ -150,6 +150,7 @@ class Commander : ZilchComponent
         if(this.Owner.HP!=null && this.Owner.HP.HP <= 0)
         {
             this.EvolutionBarCog.Destroy();
+            this.DeleteCurType();
             foreach(var unit in this.Units)
             {
                 unit.Slave.CogBoi = unit.Slave.NullBoi;
@@ -191,7 +192,7 @@ class Commander : ZilchComponent
             this.Owner.RemoveComponentByName("BasicAI");
             foreach(var slaves in this.Units)
             {
-                if(slaves.GetComponentByName("BasicLaser") != null)
+                if(slaves.GetComponentByName("BasicLazer") != null)
                 slaves.RemoveComponentByName("BasicLazer");
                 if(slaves.GetComponentByName("AutoOrientToVelocity") != null)
                 slaves.RemoveComponentByName("AutoOrientToVelocity");

@@ -65,7 +65,7 @@ class Hill : ZilchComponent
             sign=-1;
         if(this.Counter>0)
         {
-            this.Counter=-10;
+            this.Counter=-30;
             if(this.ScoreBoi==1)
             {
                 this.Space.FindObjectByName("Camera").UnitOrder.Good.Add(this.Space.CreateAtPosition(Archetype.Find("GoodBoiCommander"), Real3(10*sign,0,0)));
