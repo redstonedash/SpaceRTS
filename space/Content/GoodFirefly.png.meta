@@ -1,0 +1,20 @@
+ImageContent = 
+{
+	SpriteSourceBuilder = 
+	{
+		string Name = "GoodFirefly",
+		uint64 ResourceId = 5ab17e82c86f54ff,
+		uint64 AtlasId = 5274cf95e4a661fd,
+		uint FrameSizeX = 0,
+		uint FrameSizeY = 0,
+		uint FrameCount = 1,
+		float FrameDelay = 0.0833333358,
+		float OriginX = 231,
+		float OriginY = 266,
+		float PixelsPerUnit = 64,
+		bool Smoothing = true,
+		bool Looping = true,
+		Vec4 Slices = [0, 0, 0, 0],
+		SpriteFill Fill = Stretch,
+	},
+},

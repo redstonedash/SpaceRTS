@@ -2,15 +2,15 @@ ImageContent =
 {
 	SpriteSourceBuilder = 
 	{
-		string Name = "Wizard",
-		uint64 ResourceId = 5a8800909dac6928,
+		string Name = "BadFirefly",
+		uint64 ResourceId = 5ab17e82c86fabf1,
 		uint64 AtlasId = 5274cf95e4a661fd,
 		uint FrameSizeX = 0,
 		uint FrameSizeY = 0,
 		uint FrameCount = 1,
 		float FrameDelay = 0.0833333358,
-		float OriginX = 397,
-		float OriginY = 561,
+		float OriginX = 231,
+		float OriginY = 266,
 		float PixelsPerUnit = 64,
 		bool Smoothing = true,
 		bool Looping = true,

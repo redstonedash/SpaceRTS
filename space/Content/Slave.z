@@ -107,6 +107,7 @@ class Slave : ZilchComponent
         }
         if(this.CogBoi.WizardAI != null)
         {
+            this.Owner.AddComponentByName("AutoOrientToVelocity");
         }
     }
 }

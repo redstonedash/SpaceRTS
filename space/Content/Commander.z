@@ -17,6 +17,13 @@ class Commander : ZilchComponent
     var EvolveBar : Archetype;
     var EvolutionBarCog : Cog;
     
+    [Property]
+    var BasicSprite : SpriteSource;
+    [Property]
+    var WizardSprite : SpriteSource;
+    [Property]
+    var FireFlySprite : SpriteSource;
+    
     function Initialize(init : CogInitializer)
     {
         this.Owner.AddComponentByName("BasicAI");
@@ -75,6 +82,7 @@ class Commander : ZilchComponent
                 this.Owner.AddComponentByName("AutoOrientToVelocity");
                 this.Owner.AutoOrientToVelocity.AngleOffset = 90;
                 this.Owner.BasicAI.Connect();
+                this.Owner.Sprite.SpriteSource = this.BasicSprite;
                 this.EvolutionTimer = 0;
                 if(this.Owner.HP != null)
                 {
@@ -109,6 +117,7 @@ class Commander : ZilchComponent
                 this.Owner.RigidBody.RotationLocked = true;
                 this.Owner.Transform.EulerAngles = Real3(0, 0, 0);
                 this.Owner.FireFlyAI.Connect();
+                this.Owner.Sprite.SpriteSource = this.FireFlySprite;
                 this.EvolutionTimer = 0;
                 if(this.Owner.HP != null)
                 {
@@ -131,6 +140,7 @@ class Commander : ZilchComponent
                         offsets.Add(Real3(-0.25,-0.25,0));
                         offsets.Add(Real3(-0.5,-0.5,0));
                         i.Slave.Offset = offsets.Get(position);
+                        i.AddComponentByName("AutoOrientToVelocity");
                     }
                 }
                 this.Owner.AddComponentByName("WizardFire");
@@ -138,6 +148,7 @@ class Commander : ZilchComponent
                 this.Owner.AutoOrientToVelocity.AngleOffset = 90;
                 this.Owner.WizardFire.Connect();
                 this.Owner.WizardAI.Connect();
+                this.Owner.Sprite.SpriteSource = this.WizardSprite;
                 this.EvolutionTimer = 0;
                 if(this.Owner.HP != null)
                 {
@@ -218,6 +229,11 @@ class Commander : ZilchComponent
             this.Owner.RemoveComponentByName("WizardAI");
             this.Owner.RemoveComponentByName("WizardFire");
             this.Owner.RemoveComponentByName("AutoOrientToVelocity");
+            foreach(var slaves in this.Units)
+            {
+                if(slaves.GetComponentByName("AutoOrientToVelocity") != null)
+                slaves.RemoveComponentByName("AutoOrientToVelocity");
+            }
         }
     }
 }

@@ -28,7 +28,7 @@ Cog =
 		BlendMode BlendMode = Alpha,
 		SpriteGeometryMode GeometryMode = ZPlane,
 		string SpriteLayer = "52ad5fa30d7fcd50:DefaultSpriteLayer",
-		string SpriteSource = "5275aa4d802dd6dc:Square",
+		string SpriteSource = "5ab179f701fa981c:BadDrone",
 		bool RenderMask = false,
 		bool FlipX = false,
 		bool FlipY = false,
@@ -126,75 +126,5 @@ Cog =
 	},
 	Hierarchy = 
 	{
-		Cog = 
-		{
-			LinkId = 
-			{
-				uint Id = 2,
-			},
-			Named = 
-			{
-				string Name = "null",
-			},
-			Transform = 
-			{
-				Vec3 Translation = [0.526972592, 0.306928635, -1.29800783e-08],
-				Vec3 Scale = [0.49999997, 1.99999988, 1],
-				Quat Rotation = [0, 0, 0.864163637, -0.503210783],
-			},
-			Sprite = 
-			{
-				bool Visible = true,
-				bool VisibilityCulling = true,
-				bool VisibilityEvents = true,
-				bool CastShadows = false,
-				Vec4 Color = [1, 0, 0, 1],
-				BlendMode BlendMode = Alpha,
-				SpriteGeometryMode GeometryMode = ZPlane,
-				string SpriteLayer = "52ad5fa30d7fcd50:DefaultSpriteLayer",
-				string SpriteSource = "5275aa4d802dd6dc:Square",
-				bool RenderMask = false,
-				bool FlipX = false,
-				bool FlipY = false,
-				bool AnimationActive = true,
-				float AnimationSpeed = 1,
-				uint StartFrame = 0,
-			},
-		},
-		Cog = 
-		{
-			LinkId = 
-			{
-				uint Id = 3,
-			},
-			Named = 
-			{
-				string Name = "null",
-			},
-			Transform = 
-			{
-				Vec3 Translation = [0.526972651, -0.433771133, -1.29800783e-08],
-				Vec3 Scale = [0.49999994, 1.99999976, 1],
-				Quat Rotation = [0, 0, 0.503019869, -0.864274859],
-			},
-			Sprite = 
-			{
-				bool Visible = true,
-				bool VisibilityCulling = true,
-				bool VisibilityEvents = true,
-				bool CastShadows = false,
-				Vec4 Color = [1, 0, 0, 1],
-				BlendMode BlendMode = Alpha,
-				SpriteGeometryMode GeometryMode = ZPlane,
-				string SpriteLayer = "52ad5fa30d7fcd50:DefaultSpriteLayer",
-				string SpriteSource = "5275aa4d802dd6dc:Square",
-				bool RenderMask = false,
-				bool FlipX = false,
-				bool FlipY = false,
-				bool AnimationActive = true,
-				float AnimationSpeed = 1,
-				uint StartFrame = 0,
-			},
-		},
 	},
 },
