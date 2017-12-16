@@ -10,15 +10,18 @@ class UnitSpawning : ZilchComponent
     function OnLogicUpdate(event : UpdateEvent)
     {
         //Console.WriteLine("BOI");
-        if(this.GoodCounter>0)
+        if(this.Owner.UnitOrder != null)
         {
-            this.GoodCounter-=2.5;
-            this.Owner.UnitOrder.Good.Add(this.Space.CreateAtPosition(Archetype.Find("GoodBoiCommander"), Real3(0,-6,0)));
-        }
-        if(this.BadCounter>0)
-        {
-            this.BadCounter-=2.5;
-            this.Owner.UnitOrder.Bad.Add(this.Space.CreateAtPosition(Archetype.Find("BadBoiCommander"), Real3(0,6,0)));
+            if(this.GoodCounter>0)
+            {
+                this.GoodCounter-=2.5;
+                this.Owner.UnitOrder.Good.Add(this.Space.CreateAtPosition(Archetype.Find("GoodBoiCommander"), Real3(0,-6,0)));
+            }
+            if(this.BadCounter>0)
+            {
+                this.BadCounter-=2.5;
+                this.Owner.UnitOrder.Bad.Add(this.Space.CreateAtPosition(Archetype.Find("BadBoiCommander"), Real3(0,6,0)));
+            }
         }
     }
 }

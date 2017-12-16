@@ -26,44 +26,49 @@ class Slave : ZilchComponent
                     }
                 }
             }
-            if(this.CogBoi != this.NullBoi)
+            if(this.CogBoi != null)
             {
-                if(this.CogBoi.Commander.Units.FindFirstIndex(this.NullBoi) != -1)
+                if(this.CogBoi.Commander != null)
                 {
-                    this.CogBoi.Commander.Units.Set(this.CogBoi.Commander.Units.FindFirstIndex(this.NullBoi), this.Owner);
-                    var offsets = Array[Real3]();
-                    if(this.CogBoi.FireFlyAI != null)
+                    if(this.CogBoi.Commander.Units.FindFirstIndex(this.NullBoi) != -1)
                     {
-                        offsets.Add(Real3(-0.25,0.25,0));
-                        offsets.Add(Real3(0.25,-0.25,0));
-                        offsets.Add(Real3(-0.25,-0.25,0));
-                        offsets.Add(Real3(0.25,0.25,0));
+                        this.CogBoi.Commander.Units.Set(this.CogBoi.Commander.Units.FindFirstIndex(this.NullBoi), this.Owner);
+                        var offsets = Array[Real3]();
+                        if(this.CogBoi.FireFlyAI != null)
+                        {
+                            offsets.Add(Real3(-0.25,0.25,0));
+                            offsets.Add(Real3(0.25,-0.25,0));
+                            offsets.Add(Real3(-0.25,-0.25,0));
+                            offsets.Add(Real3(0.25,0.25,0));
+                        }
+                        else
+                        {
+                            offsets.Add(Real3(0.5,-0.5,0));
+                            offsets.Add(Real3(0.25,-0.25,0));
+                            offsets.Add(Real3(-0.25,-0.25,0));
+                            offsets.Add(Real3(-0.5,-0.5,0));
+                        }
+                        this.Offset = offsets.Get(this.CogBoi.Commander.Units.FindFirstIndex(this.Owner));
+                        this.LevelSettings.ManageDrones.EmptySpaces.RemoveAt(0);
+                        this.LevelSettings.ManageDrones.Commanders.RemoveAt(0);
+                        this.InheritCommanderType();
                     }
                     else
                     {
-                        offsets.Add(Real3(0.5,-0.5,0));
-                        offsets.Add(Real3(0.25,-0.25,0));
-                        offsets.Add(Real3(-0.25,-0.25,0));
-                        offsets.Add(Real3(-0.5,-0.5,0));
+                        this.CogBoi = this.NullBoi;
                     }
-                    this.Offset = offsets.Get(this.CogBoi.Commander.Units.FindFirstIndex(this.Owner));
-                    this.LevelSettings.ManageDrones.EmptySpaces.RemoveAt(0);
-                    this.LevelSettings.ManageDrones.Commanders.RemoveAt(0);
-                    this.InheritCommanderType();
-                }
-                else
-                {
-                    this.CogBoi = this.NullBoi;
                 }
             }
-            
         }
     }
     function OnLogicUpdate(event : UpdateEvent)
     {
-        if(this.Owner.HP.HP<=0)
+        if(this.Owner.HP != null)
         {
-            this.LevelSettings.ManageDrones.SendDeathEvent(this.Owner, this.CogBoi);
+            if(this.Owner.HP.HP<=0)
+            {
+                this.LevelSettings.ManageDrones.SendDeathEvent(this.Owner, this.CogBoi);
+            }
         }
     }
     function OnEmpty(event : DeathEvent)
